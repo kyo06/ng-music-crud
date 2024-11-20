@@ -1,0 +1,42 @@
+<form (ngSubmit)="onSubmit()" class="p-4 border rounded shadow-sm bg-light">
+  <div class="form-group mb-3">
+    <label for="title" class="form-label">Title:</label>
+    <input 
+      type="text" 
+      [(ngModel)]="newSong.title" 
+      name="title" 
+      id="title" 
+      class="form-control" 
+      placeholder="Enter the song title" 
+      required
+    />
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="artist" class="form-label">Artist:</label>
+    <input 
+      type="text" 
+      [(ngModel)]="newSong.artist" 
+      name="artist" 
+      id="artist" 
+      class="form-control" 
+      placeholder="Enter the artist's name" 
+      required
+    />
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="genre" class="form-label">Genre:</label>
+    <input 
+      type="text" 
+      [(ngModel)]="newSong.genre" 
+      name="genre" 
+      id="genre" 
+      class="form-control" 
+      placeholder="Enter the music genre" 
+      required
+    />
+  </div>
+  
+  <button type="submit" class="btn btn-primary w-100">Add Song</button>
+</form>
