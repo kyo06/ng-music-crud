@@ -1,43 +1,34 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Song } from '../models/Song';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MusicService {
 
-  static COMPTEUR_ID: number = 1;
+  private urlApi = 'http://localhost:3000/songs';
 
-  //Liste des chansons
-  songs: Song[] = [
-    { id: MusicService.COMPTEUR_ID++, title: 'Shape of You', artist: 'Ed Sheeran', genre: 'Pop', date: new Date('2017-01-01') },
-    { id: MusicService.COMPTEUR_ID++, title: 'Blinding Lights', artist: 'The Weeknd', genre: 'R&B', date: new Date('2020-01-01') },
-    { id: MusicService.COMPTEUR_ID++, title: 'Rolling in the Deep', artist: 'Adele', genre: 'Pop', date: new Date('2011-01-01') },
-    { id: MusicService.COMPTEUR_ID++, title: 'Old Town Road', artist: 'Lil Nas X', genre: 'Country', date: new Date('2019-01-01') },
-    { id: MusicService.COMPTEUR_ID++, title: 'Blinding Lights', artist: 'The Weeknd', genre: 'R&B', date: new Date('2021-01-01') },
-  ];
-  
-  getSongs(): Song[]{
-    return this.songs;
+  private http = inject(HttpClient);
+
+  getSongs(): Observable<Song[]>{
+    return this.http.get<Song[]>(this.urlApi);
   }
 
-  getSongById(id: number): Song | undefined {
-    return this.songs.find(song => song.id === id);
+  getSongById(id: number): Observable<Song | undefined>{
+    return this.http.get<Song>(`${this.urlApi}/${id}`);
   }
 
-  addSong(song: Omit<Song, 'id'>): void{
-    const id : number = MusicService.COMPTEUR_ID++;
-    this.songs.push({...song, id})
+  addSong(song: Omit<Song, 'id'>): Observable<Song> {
+    return this.http.post<Song>(this.urlApi, song);
   }
 
-  deleteSong(id: number): void{
-    this.songs = this.songs.filter(song => song.id !== id);
+  deleteSong(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.urlApi}/${id}`);
   }
 
-  editSong(id: number, song: Song): void {
-    const index = this.songs.findIndex(song => song.id === id);
-    if(index !== -1){
-      this.songs[index] = {...this.songs[index], ...song};
-    } 
+  editSong(id: number, song: Song): Observable<void> {
+    return this.http.put<void>(`${this.urlApi}/${id}`, song);
   }
 }

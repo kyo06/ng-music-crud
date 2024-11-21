@@ -30,10 +30,11 @@ export class SongFormComponent implements OnInit, OnDestroy {
   //Méthode qui s'exécute lors de l'initialisation du composant
   ngOnInit(): void {
     if(this.isEditing){
-      const song = this.musicService.getSongById(this.idForEditForm);
-      if(song){
-        this.currentSong = song;
-      }
+      this.musicService.getSongById(this.idForEditForm).subscribe(song => {
+        if(song){
+          this.currentSong = song;
+        }
+      });
     }
   }
 

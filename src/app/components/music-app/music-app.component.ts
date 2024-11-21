@@ -34,7 +34,10 @@ export class MusicAppComponent {
   */
 
   constructor(private musicService: MusicService, private changeDetectorRef: ChangeDetectorRef){
-    this.songs = this.musicService.getSongs();
+    this.musicService.getSongs().subscribe(songs => {
+      this.songs = songs;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   addOrEditSong(song: Song) {
