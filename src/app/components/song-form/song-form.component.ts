@@ -1,31 +1,62 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Song } from '../../models/Song';
+import { MusicService } from '../../services/music.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-song-form',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, DatePipe],
   templateUrl: './song-form.component.html',
   styleUrl: './song-form.component.css'
 })
-export class SongFormComponent {
-  @Output() addSong = new EventEmitter<Omit<Song, 'id'>>();
+export class SongFormComponent implements OnInit, OnDestroy {
+  @Output() addOrEditSong = new EventEmitter<Song>();
 
-  newSong: Omit<Song, 'id'> = {
+  @Input() isEditing: boolean = false;
+  @Input() idForEditForm: number = 0;
+
+  currentSong: Song = {
+    id: 0,
     title : "",
     artist : "" ,
     genre : "",
     date : new Date()
+  };
+
+  constructor(private musicService: MusicService){} //Injection de dépendance
+
+  //Méthode qui s'exécute lors de l'initialisation du composant
+  ngOnInit(): void {
+    if(this.isEditing){
+      const song = this.musicService.getSongById(this.idForEditForm);
+      if(song){
+        this.currentSong = song;
+      }
+    }
   }
+
+  //Méthode qui s'exécute lors de la destruction du composant
+  ngOnDestroy(): void {
+  }
+
   onSubmit(){ 
-    this.addSong.emit(this.newSong);
-    this.newSong = {
+    this.addOrEditSong.emit(this.currentSong);
+    this.currentSong = {
+      id: 0,
       title : "",
       artist : "",
       genre : "",
       date : new Date()
     }
+  }
+
+  //Méthode qui change la date du formulaire
+  //date est un string et non un Date !!!
+  changeDate(dateStr: string): void{
+    const date = new Date(dateStr);
+    this.currentSong.date = date;
   }
 
 }

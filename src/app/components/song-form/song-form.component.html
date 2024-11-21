@@ -1,9 +1,29 @@
+@if (isEditing) {
+  <h2>Edit Song</h2>
+} @else {
+  <h2>Add Song</h2>
+}
+
 <form (ngSubmit)="onSubmit()" class="p-4 border rounded shadow-sm bg-light">
+  @if (isEditing) {
+    <div class="form-group mb-3">
+      <label for="id" class="form-label">ID:</label>
+      <input
+        type="number"
+        [(ngModel)]="currentSong.id"
+        name="id"
+        id="id"
+        class="form-control"
+        disabled
+      />
+    </div>
+  }
+  
   <div class="form-group mb-3">
     <label for="title" class="form-label">Title:</label>
     <input 
       type="text" 
-      [(ngModel)]="newSong.title" 
+      [(ngModel)]="currentSong.title" 
       name="title" 
       id="title" 
       class="form-control" 
@@ -16,7 +36,7 @@
     <label for="artist" class="form-label">Artist:</label>
     <input 
       type="text" 
-      [(ngModel)]="newSong.artist" 
+      [(ngModel)]="currentSong.artist" 
       name="artist" 
       id="artist" 
       class="form-control" 
@@ -29,7 +49,7 @@
     <label for="genre" class="form-label">Genre:</label>
     <input 
       type="text" 
-      [(ngModel)]="newSong.genre" 
+      [(ngModel)]="currentSong.genre" 
       name="genre" 
       id="genre" 
       class="form-control" 
@@ -42,7 +62,8 @@
     <label for="date" class="form-label">Date:</label>
     <input 
       type="date" 
-      [(ngModel)]="newSong.date" 
+      [ngModel]="currentSong.date | date:'yyyy-MM-dd'" 
+      (ngModelChange)="changeDate($event)"
       name="date" 
       id="date"
       class="form-control" 
@@ -50,5 +71,5 @@
     />
   </div>
   
-  <button type="submit" class="btn btn-primary w-100">Add Song</button>
+  <button type="submit" class="btn btn-primary w-100">{{isEditing ? 'Update Song' : 'Add Song'}}</button>
 </form>

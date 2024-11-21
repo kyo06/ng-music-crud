@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { SongListComponent } from "../song-list/song-list.component";
 import { SongFormComponent } from "../song-form/song-form.component";
 import { Song } from '../../models/Song';
@@ -14,8 +14,10 @@ import { MusicService } from '../../services/music.service';
 })
 export class MusicAppComponent {
   songs: Song[] = [];
-  isForAdding: boolean = false;
-
+  isDisplayingAddSongForm: boolean = false;
+  isDisplayingEditSongForm: boolean = false;
+  isEditingForm: boolean = false;
+  idForEditForm: number = 0;
   // équivalent de l'autre constructeur
   /*
   private musicService: MusicService;
@@ -31,14 +33,41 @@ export class MusicAppComponent {
   }
   */
 
-  constructor(private musicService: MusicService){
+  constructor(private musicService: MusicService, private changeDetectorRef: ChangeDetectorRef){
     this.songs = this.musicService.getSongs();
   }
 
-  addSong(newSong: Omit<Song, 'id'>){
-    this.musicService.addSong(newSong);
+  addOrEditSong(song: Song) {
+    if(song.id === 0){
+      this.musicService.addSong(song);
+    } else{
+      this.musicService.editSong(song.id, song);
+    }
+
+    this.isDisplayingAddSongForm = false;
+    this.isDisplayingEditSongForm = false;
   }
+
   clickToDelete(id: number): void{
     this.musicService.deleteSong(id);
   }
+
+  displaySongAddForm(): void{
+    this.isDisplayingEditSongForm = false;
+    this.isDisplayingAddSongForm = true;
+    this.isEditingForm = false;
+  }
+
+  displaySongEditForm(id: number): void{
+    this.isDisplayingAddSongForm = false;
+    this.isDisplayingEditSongForm = false;
+
+    this.changeDetectorRef.detectChanges(); //Forcer le re-render (mise à jour de la vue)
+
+    this.idForEditForm = id;
+
+    this.isDisplayingAddSongForm = false;
+    this.isDisplayingEditSongForm = true;
+}
+
 }

@@ -15,7 +15,8 @@ import { SongFormComponent } from '../song-form/song-form.component';
 export class SongListComponent {
   @Input() songsList: Song[] = [];
   @Output() deleteSongEvent = new EventEmitter<number>();
-
+  @Output() editDisplaySongEvent = new EventEmitter<number>();
+  
   isEditing: boolean = false;
       
   deleteSong(id : number){
@@ -23,6 +24,6 @@ export class SongListComponent {
   }
 
   editSong(id : number){
-    this.isEditing = true;
+    this.editDisplaySongEvent.emit(id);
   }
 }
