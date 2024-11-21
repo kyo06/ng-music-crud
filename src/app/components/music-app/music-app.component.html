@@ -1,4 +1,7 @@
+<h1>Music App</h1>
+
+<button (click)="isForAdding = true" class="btn btn-primary">Add Song</button>
+
 <app-song-list [songsList]="songs" (deleteSongEvent)="clickToDelete($event)"></app-song-list>
   
-
-<app-song-form (addSong)="addSong($event)"></app-song-form>
+<app-song-form *ngIf="isForAdding" (addSong)="addSong($event)"></app-song-form>

@@ -20,7 +20,7 @@ export class SongFormComponent {
   }
   onSubmit(){ 
     this.addSong.emit(this.newSong);
-    this.newSong ={
+    this.newSong = {
       title : "",
       artist : "",
       genre : "",

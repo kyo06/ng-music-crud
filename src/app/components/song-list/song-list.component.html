@@ -16,9 +16,12 @@
         <td>{{ song.genre | getchar }}</td>
         <td>{{ song.date | getYear }}</td>
         <td>
+          <button (click)="editSong(song.id)" class="btn btn-warning btn-sm">Edit</button>
           <button (click)="deleteSong(song.id)" class="btn btn-danger btn-sm">Delete</button>
         </td>
       </tr>
     }
   </tbody>
 </table>
+
+<app-song-form *ngIf="isEditing"></app-song-form>
