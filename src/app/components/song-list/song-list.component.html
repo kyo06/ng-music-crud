@@ -4,17 +4,21 @@
       <th>Title</th>
       <th>Artist</th>
       <th>Genre</th>
+      <th>Year</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let song of songsList">
-      <td>{{ song.title }}</td>
-      <td>{{ song.artist }}</td>
-      <td>{{ song.genre }}</td>
-      <td>
-        <button (click)="deleteSong(song.id)" class="btn btn-danger btn-sm">Delete</button>
-      </td>
-    </tr>
+    @for (song of songsList; track song.id) {
+      <tr>
+        <td>{{ song.title | uppercase }}</td>
+        <td>{{ song.artist | titlecase }}</td>
+        <td>{{ song.genre | getchar }}</td>
+        <td>{{ song.date | getYear }}</td>
+        <td>
+          <button (click)="deleteSong(song.id)" class="btn btn-danger btn-sm">Delete</button>
+        </td>
+      </tr>
+    }
   </tbody>
 </table>

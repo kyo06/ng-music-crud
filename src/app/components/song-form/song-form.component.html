@@ -37,6 +37,18 @@
       required
     />
   </div>
+
+  <div class="form-group mb-3"> 
+    <label for="date" class="form-label">Date:</label>
+    <input 
+      type="date" 
+      [(ngModel)]="newSong.date" 
+      name="date" 
+      id="date"
+      class="form-control" 
+      required
+    />
+  </div>
   
   <button type="submit" class="btn btn-primary w-100">Add Song</button>
 </form>
