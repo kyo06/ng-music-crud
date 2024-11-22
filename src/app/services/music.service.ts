@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Song } from '../models/Song';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -10,7 +10,8 @@ export class MusicService {
 
   private urlApi = 'http://localhost:3000/songs';
 
-  private http = inject(HttpClient);
+  constructor(private http: HttpClient) {
+  }
 
   getSongs(): Observable<Song[]>{
     return this.http.get<Song[]>(this.urlApi);
