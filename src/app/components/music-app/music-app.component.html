@@ -1,11 +1,11 @@
-<h1>Music App</h1>
+<h1 appHighlight [highlightColor]="'red'">Music App</h1>
 
 <button (click)="displaySongAddForm()" class="btn btn-primary">Add Song</button>
 
-<app-song-list [songsList]="songs" (deleteSongEvent)="clickToDelete($event)" (editDisplaySongEvent)="displaySongEditForm($event)"></app-song-list>
+<app-song-list [appShowAnimation]="true" [songsList]="songs" (deleteSongEvent)="clickToDelete($event)" (editDisplaySongEvent)="displaySongEditForm($event)"></app-song-list>
   
 @if (isDisplayingAddSongForm) {
-  <app-song-form [isEditing]="false" (addOrEditSong)="addOrEditSong($event)"></app-song-form>
+  <app-song-form  [isEditing]="false" (addOrEditSong)="addOrEditSong($event)"></app-song-form>
 } 
 
 @if (isDisplayingEditSongForm) {

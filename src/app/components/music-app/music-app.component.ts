@@ -5,11 +5,13 @@ import { SongFormComponent } from "../song-form/song-form.component";
 import { Song } from '../../models/Song';
 import { MusicService } from '../../services/music.service';
 import { Subscription } from 'rxjs';
+import { HighlightDirective } from '../../directives/highlight.directive';
+import { ShowAnimationDirective } from '../../directives/show-animation.directive';
 
 @Component({
   selector: 'app-music-app',
   standalone: true,
-  imports: [CommonModule, SongListComponent, SongFormComponent],
+  imports: [CommonModule, SongListComponent, SongFormComponent, HighlightDirective, ShowAnimationDirective ],
   templateUrl: './music-app.component.html',
   styleUrl: './music-app.component.css'
 })
