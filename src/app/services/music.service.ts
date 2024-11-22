@@ -31,4 +31,8 @@ export class MusicService {
   editSong(id: number, song: Song): Observable<void> {
     return this.http.put<void>(`${this.urlApi}/${id}`, song);
   }
+
+  likeSong(id: number, liked: boolean): Observable<void> {
+    return this.http.patch<void>(`${this.urlApi}/${id}`, {liked});
+  }
 }

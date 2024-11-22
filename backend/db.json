@@ -5,21 +5,40 @@
       "artist": "The Weeknd 2",
       "genre": "R&B 2",
       "date": "2020-01-01",
-      "id": 3
+      "id": 3,
+      "liked": false
     },
     {
       "id": 4,
       "title": "Old Town Road",
       "artist": "Lil Nas X",
       "genre": "Country",
-      "date": "2019-01-01"
+      "date": "2019-01-01",
+      "liked": false
     },
     {
       "id": 5,
       "title": "Blinding Lights",
-      "artist": "The Weeknd",
+      "artist": "The Weeknd 2",
       "genre": "R&B",
-      "date": "2021-01-01"
+      "date": "2021-01-01",
+      "liked": false
+    },
+    {
+      "id": 6,
+      "title": "rezgui@PC-CYMA-DELL",
+      "artist": "tat",
+      "genre": "Jazz",
+      "date": "2024-11-22T08:33:25.911Z",
+      "liked": false
+    },
+    {
+      "id": 7,
+      "title": "Shape of You 2",
+      "artist": "Me",
+      "genre": "Chanson française",
+      "date": "2028-01-20T00:00:00.000Z",
+      "liked": true
     }
   ]
 }

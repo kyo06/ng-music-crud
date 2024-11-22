@@ -18,7 +18,7 @@
         <td>
           <button (click)="editSong(song.id)" class="btn btn-warning btn-sm">Edit</button>
           <button (click)="deleteSong(song.id)" class="btn btn-danger btn-sm">Delete</button>
-          <button (click)="likeSong(song.id)" class="btn btn-outline-primary btn-sm">
+          <button (click)="likeSong(song.id, !song.liked)" class="btn btn-outline-primary btn-sm">
             {{ song.liked ? '⭐' : '☆' }}
           </button>
         </td>

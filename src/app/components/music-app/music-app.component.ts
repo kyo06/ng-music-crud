@@ -47,13 +47,11 @@ export class MusicAppComponent {
   loadSongs(): void{
     const subscription = this.musicService.getSongs()
     .subscribe(songs => {
-      console.log("data récupérée", songs);
       songs.forEach(song => {
         if(song.date) {
           song.date = new Date(song.date);
         }
       });
-      console.log("data modifiée", songs);
       this.songs = songs;
     });
     this.subscription.add(subscription);
