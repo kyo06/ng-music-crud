@@ -1,39 +1,39 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { GetcharPipe } from '../../pipes/getchar.pipe';
 import { Song } from '../../models/Song';
 import { GetYearPipe } from '../../pipes/get-year.pipe';
-import { SongFormComponent } from '../song-form/song-form.component';
 import { MusicService } from '../../services/music.service';
 import { Subscription } from 'rxjs';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-song-list',
   standalone: true,
-  imports: [CommonModule, GetcharPipe, GetYearPipe, SongFormComponent ],
+  imports: [CommonModule, GetcharPipe, GetYearPipe, RouterModule],
   templateUrl: './song-list.component.html',
   styleUrl: './song-list.component.css'
 })
 export class SongListComponent {
   @Input() songsList: Song[] = [];
-  @Output() deleteSongEvent = new EventEmitter<number>();
-  @Output() editDisplaySongEvent = new EventEmitter<number>();
-  
-  isEditing: boolean = false;
 
   private musicService = inject(MusicService);
   private subscription = new Subscription();  
+  private router = inject(Router);
       
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   deleteSong(id : number){
-    this.deleteSongEvent.emit(id);
+    const subscription = this.musicService.deleteSong(id).subscribe(() => {
+      window.location.reload(); //force la rechargement de la page car on est sur la même page
+    });
+    this.subscription.add(subscription);
   }
 
   editSong(id : number){
-    this.editDisplaySongEvent.emit(id);
+    this.router.navigate(['/edit', id]);
   }
 
   likeSong(id: number, liked: boolean){

@@ -12,6 +12,6 @@ export class NotFoundComponent {
   message: string = '';
 
   constructor(private route: ActivatedRoute){
-    this.message = this.route.snapshot.params['message'];
+    this.message = this.route.snapshot.params['message']; //car message est dans l'url
   }
 }
