@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { Song } from '../../models/Song';
 import { MusicService } from '../../services/music.service';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-song-form',
@@ -12,8 +14,6 @@ import { DatePipe } from '@angular/common';
   styleUrl: './song-form.component.css'
 })
 export class SongFormComponent implements OnInit, OnDestroy {
-  @Output() addOrEditSong = new EventEmitter<Song>();
-
   @Input() isEditing: boolean = false;
   @Input() idForEditForm: number = 0;
 
@@ -26,7 +26,9 @@ export class SongFormComponent implements OnInit, OnDestroy {
     liked: false
   };
 
-  constructor(private musicService: MusicService){} //Injection de dépendance
+  private subscription: Subscription = new Subscription(); 
+
+  constructor(private musicService: MusicService, private router: Router ){} //Injection de dépendance
 
   //Méthode qui s'exécute lors de l'initialisation du composant
   ngOnInit(): void {
@@ -41,18 +43,14 @@ export class SongFormComponent implements OnInit, OnDestroy {
 
   //Méthode qui s'exécute lors de la destruction du composant
   ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
-  onSubmit(){ 
-    this.addOrEditSong.emit(this.currentSong);
-    this.currentSong = {
-      id: 0,
-      title : "",
-      artist : "",
-      genre : "",
-      date : new Date(),
-      liked: false
-    }
+  onSubmit() {
+    const subscription = this.musicService.addSong(this.currentSong).subscribe(() => {
+      this.router.navigate(['/']);
+    });
+    this.subscription.add(subscription);
   }
 
   //Méthode qui change la date du formulaire

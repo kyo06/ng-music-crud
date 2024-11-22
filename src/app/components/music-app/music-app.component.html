@@ -1,14 +1,6 @@
 <h1 appHighlight [highlightColor]="'red'">Music App</h1>
 
 <button (click)="displaySongAddForm()" class="btn btn-primary">Add Song</button>
+<!-- <button routerLink="/add" class="btn btn-primary">Add Song</button> -->
 
-<app-song-list [appShowAnimation]="true" [songsList]="songs" (deleteSongEvent)="clickToDelete($event)" (editDisplaySongEvent)="displaySongEditForm($event)"></app-song-list>
-  
-@if (isDisplayingAddSongForm) {
-  <app-song-form  [isEditing]="false" (addOrEditSong)="addOrEditSong($event)"></app-song-form>
-} 
-
-@if (isDisplayingEditSongForm) {
-  <app-song-form [isEditing]="true" [idForEditForm]="idForEditForm" (addOrEditSong)="addOrEditSong($event)"></app-song-form>
-}
-
+<app-song-list [appShowAnimation]="true" [songsList]="songs"></app-song-list>
