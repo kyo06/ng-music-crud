@@ -26,4 +26,8 @@ export class SongListComponent {
   editSong(id : number){
     this.editDisplaySongEvent.emit(id);
   }
+
+  likeSong(id: number){
+    console.log("likeSong", id);
+  }
 }

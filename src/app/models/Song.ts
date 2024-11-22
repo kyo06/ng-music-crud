@@ -4,4 +4,5 @@ export interface Song {
   artist: string;
   genre: string;
   date: Date;
+  liked: boolean;
 }

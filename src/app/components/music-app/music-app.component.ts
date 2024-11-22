@@ -4,6 +4,7 @@ import { SongListComponent } from "../song-list/song-list.component";
 import { SongFormComponent } from "../song-form/song-form.component";
 import { Song } from '../../models/Song';
 import { MusicService } from '../../services/music.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-music-app',
@@ -33,18 +34,50 @@ export class MusicAppComponent {
   }
   */
 
-  constructor(private musicService: MusicService, private changeDetectorRef: ChangeDetectorRef){
-    this.musicService.getSongs().subscribe(songs => {
+  private subscription: Subscription = new Subscription();
+
+  constructor(private musicService: MusicService, private changeDetectorRef: ChangeDetectorRef) {
+  }
+
+  //Méthode qui s'exécute lors de l'initialisation du composant
+  ngOnInit(): void {
+    this.loadSongs();
+  }
+
+  loadSongs(): void{
+    const subscription = this.musicService.getSongs()
+    .subscribe(songs => {
+      console.log("data récupérée", songs);
+      songs.forEach(song => {
+        if(song.date) {
+          song.date = new Date(song.date);
+        }
+      });
+      console.log("data modifiée", songs);
       this.songs = songs;
-      this.changeDetectorRef.detectChanges();
     });
+    this.subscription.add(subscription);
+  }
+
+  //Méthode qui s'exécute lors de la destruction du composant
+  ngOnDestroy(): void {
+    //Pour éviter les fuites de mémoire
+    this.subscription.unsubscribe();
   }
 
   addOrEditSong(song: Song) {
     if(song.id === 0){
-      this.musicService.addSong(song);
+      const subscription = this.musicService.addSong(song)
+      .subscribe(() => {
+        this.loadSongs();
+      });
+      this.subscription.add(subscription);
     } else{
-      this.musicService.editSong(song.id, song);
+      const subscription = this.musicService.editSong(song.id, song)
+      .subscribe(() => {
+        this.loadSongs();
+      });
+      this.subscription.add(subscription);
     }
 
     this.isDisplayingAddSongForm = false;
@@ -52,7 +85,11 @@ export class MusicAppComponent {
   }
 
   clickToDelete(id: number): void{
-    this.musicService.deleteSong(id);
+    const subscription = this.musicService.deleteSong(id)
+    .subscribe(() => {
+      this.loadSongs();
+    });
+    this.subscription.add(subscription);
   }
 
   displaySongAddForm(): void{

@@ -22,7 +22,8 @@ export class SongFormComponent implements OnInit, OnDestroy {
     title : "",
     artist : "" ,
     genre : "",
-    date : new Date()
+    date : new Date(),
+    liked: false
   };
 
   constructor(private musicService: MusicService){} //Injection de dépendance
@@ -49,7 +50,8 @@ export class SongFormComponent implements OnInit, OnDestroy {
       title : "",
       artist : "",
       genre : "",
-      date : new Date()
+      date : new Date(),
+      liked: false
     }
   }
 
